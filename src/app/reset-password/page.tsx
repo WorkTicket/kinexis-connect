@@ -15,11 +15,21 @@ export default function ResetPasswordPage() {
 
   useEffect(() => {
     let active = true;
-    createSupabaseBrowserClient().auth.getUser().then(({ data }) => {
+    const establishRecoverySession = async () => {
+      const supabase = createSupabaseBrowserClient();
+      const fragment = new URLSearchParams(window.location.hash.slice(1));
+      const accessToken = fragment.get("access_token");
+      const refreshToken = fragment.get("refresh_token");
+      if (accessToken && refreshToken) {
+        const { error: sessionError } = await supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
+        if (!sessionError) window.history.replaceState({}, "", `${window.location.pathname}${window.location.search}`);
+      }
+      const { data } = await supabase.auth.getUser();
       if (!active) return;
       setHasSession(Boolean(data.user));
       setCheckingSession(false);
-    });
+    };
+    establishRecoverySession();
     return () => { active = false; };
   }, []);
 
