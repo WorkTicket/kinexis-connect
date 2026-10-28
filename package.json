@@ -34,7 +34,7 @@
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.8",
-    "@types/node": "^20",
+    "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.1.2",
@@ -47,5 +47,13 @@
     "vite": "^8.3.5",
     "vitest": "^5.0.5",
     "wrangler": "^4.153.0"
+  },
+  "overrides": {
+    "next": {
+      "postcss": "8.5.32"
+    },
+    "@node-minify/core": {
+      "glob": "14.0.3"
+    }
   }
 }

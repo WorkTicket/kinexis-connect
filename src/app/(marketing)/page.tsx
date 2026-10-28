@@ -5,7 +5,7 @@ const features = [
   { icon: "missed-call-detection.svg", title: "Know when a call is missed", body: "Answered, busy, no-answer, and failed calls are tracked accurately." },
   { icon: "instant-text-back.svg", title: "Respond automatically", body: "Send a helpful follow-up while the customer is still looking for service." },
   { icon: "two-way-inbox.svg", title: "Keep replies together", body: "Continue customer conversations from one focused business inbox." },
-  { icon: "call-routing.svg", title: "Keep your current workflow", body: "Route calls to your verified business number with a configurable ring time." },
+  { icon: "call-routing.svg", title: "Keep your current workflow", body: "Forward only unanswered calls from your existing business phone to its dedicated Connect number." },
   { icon: "lead-analytics.svg", title: "See what gets recovered", body: "Measure missed calls, sent texts, customer replies, and reply rate." },
   { icon: "consent-compliance.svg", title: "Built around consent", body: "Respect opt-outs, registration status, cooldowns, and quiet hours." },
 ];

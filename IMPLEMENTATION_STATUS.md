@@ -15,7 +15,7 @@
 
 ## External actions still required
 
-1. Apply migrations `0001` through `0006` to the target Supabase project.
+1. Apply migrations `0001` through `0008` to the target Supabase project.
 2. Add the card/account balance, then manually purchase and assign the pilot toll-free number (no purchase is performed by this repository).
 3. Add `TELNYX_PUBLIC_KEY` to the Worker and apply the IDs already present in `wrangler.jsonc`.
 4. Complete the pilot business's toll-free verification and real Verizon/AT&T/T-Mobile forwarding tests.

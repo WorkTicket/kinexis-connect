@@ -89,15 +89,19 @@ export async function POST(req: Request) {
       } else if (data.event_type === "call.gather.ended") {
         const digits = value(payload, "digits");
         if (digits === "1") {
-          await svc.from("consent_events").insert({
-            business_id: businessId,
-            contact_id: call.contact_id,
-            consent_type: "service_sms",
-            status: "granted",
-            source: "documented_verbal",
-            evidence_reference: `TelnyxEvent:${data.id}`,
-            captured_at: data.occurred_at ?? new Date().toISOString(),
-          });
+          const evidenceReference = `TelnyxEvent:${data.id}`;
+          const { data: existingConsent } = await svc.from("consent_events").select("id").eq("evidence_reference", evidenceReference).maybeSingle();
+          if (!existingConsent) {
+            await svc.from("consent_events").insert({
+              business_id: businessId,
+              contact_id: call.contact_id,
+              consent_type: "service_sms",
+              status: "granted",
+              source: "documented_verbal",
+              evidence_reference: evidenceReference,
+              captured_at: data.occurred_at ?? new Date().toISOString(),
+            });
+          }
           await svc.from("calls").update({ consent_digit: "1", status: "missed", missed_reason: "forwarded_no_answer", updated_at: new Date().toISOString() }).eq("id", call.id);
           await queueConsentText(call);
           await callCommand(callControlId, "speak", {
@@ -134,6 +138,6 @@ export async function POST(req: Request) {
     await finishTelnyxEvent(data.id, "failed", { business_id: businessId, error_code: errorCode });
     // A stored event can be safely retried by operations without asking Telnyx
     // to replay a command whose outcome may be uncertain.
-    return NextResponse.json({ received: true, processing: "failed" });
+    return NextResponse.json({ error: "processing_failed" }, { status: 500 });
   }
 }

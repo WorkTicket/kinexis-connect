@@ -8,7 +8,8 @@ const MAX_ATTEMPTS = 5;
 
 export async function POST(req: Request) {
   const auth = req.headers.get("authorization") ?? "";
-  if (auth !== `Bearer ${process.env.INTERNAL_JOB_SECRET}`) {
+  const internalSecret = process.env.INTERNAL_JOB_SECRET;
+  if (!internalSecret || auth !== `Bearer ${internalSecret}`) {
     return new NextResponse("Forbidden", { status: 403 });
   }
   if (!isTelnyxConfigured()) {

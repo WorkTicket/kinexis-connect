@@ -11,13 +11,14 @@ export default async function AppOverview() {
   if (!membership) redirect("/onboarding");
   const svc = createSupabaseServiceClient();
   const businessId = membership.business_id;
-  const [{ count: missed }, { count: texts }, { count: replies }, { data: recentCalls }, { data: settings }, { data: phone }, { data: subscription }] = await Promise.all([
+  const [{ count: missed }, { count: texts }, { count: replies }, { data: recentCalls }, { data: settings }, { data: phone }, { data: integration }, { data: subscription }] = await Promise.all([
     svc.from("calls").select("*", { count: "exact", head: true }).eq("business_id", businessId).in("status", ["missed", "busy"]),
     svc.from("messages").select("*", { count: "exact", head: true }).eq("business_id", businessId).eq("direction", "outbound"),
     svc.from("messages").select("*", { count: "exact", head: true }).eq("business_id", businessId).eq("direction", "inbound"),
     svc.from("calls").select("id,caller_e164,status,started_at,sms_action").eq("business_id", businessId).order("started_at", { ascending: false }).limit(5),
     svc.from("business_settings").select("*").eq("business_id", businessId).maybeSingle(),
     svc.from("phone_numbers").select("*").eq("business_id", businessId).maybeSingle(),
+    svc.from("phone_integrations").select("existing_phone_e164,forwarding_status").eq("business_id", businessId).maybeSingle(),
     svc.from("subscriptions").select("*").eq("business_id", businessId).maybeSingle(),
   ]);
   const sent = texts ?? 0;
@@ -26,7 +27,8 @@ export default async function AppOverview() {
   const setup = [
     { label: "Subscription active", done: ["active", "trialing"].includes(subscription?.status) },
     { label: "Connect number assigned", done: Boolean(phone) },
-    { label: "Forwarding number added", done: Boolean(settings?.forward_to_e164) },
+    { label: "Business phone added", done: Boolean(integration?.existing_phone_e164) },
+    { label: "Forwarding tests passed", done: integration?.forwarding_status === "verified" },
     { label: "Messaging compliance approved", done: settings?.sms_consent_review_status === "approved" && phone?.sms_registration_status === "approved" },
   ];
   const setupComplete = setup.filter((item) => item.done).length;

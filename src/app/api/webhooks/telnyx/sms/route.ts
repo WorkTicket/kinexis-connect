@@ -46,15 +46,19 @@ export async function POST(req: Request) {
       if (OPT_OUT.has(keyword) || OPT_IN.has(keyword)) {
         const optedOut = OPT_OUT.has(keyword);
         await svc.from("contacts").update({ opt_out: optedOut, updated_at: now }).eq("id", contact!.id);
-        await svc.from("consent_events").insert({
-          business_id: businessId,
-          contact_id: contact!.id,
-          consent_type: "service_sms",
-          status: optedOut ? "revoked" : "granted",
-          source: "sms_keyword",
-          evidence_reference: `TelnyxMessage:${providerMessageId}`,
-          captured_at: now,
-        });
+        const evidenceReference = `TelnyxMessage:${providerMessageId}`;
+        const { data: existingConsent } = await svc.from("consent_events").select("id").eq("evidence_reference", evidenceReference).maybeSingle();
+        if (!existingConsent) {
+          await svc.from("consent_events").insert({
+            business_id: businessId,
+            contact_id: contact!.id,
+            consent_type: "service_sms",
+            status: optedOut ? "revoked" : "granted",
+            source: "sms_keyword",
+            evidence_reference: evidenceReference,
+            captured_at: now,
+          });
+        }
       }
       const { data: conversation } = await svc.from("conversations").upsert({
         business_id: businessId,
@@ -88,6 +92,7 @@ export async function POST(req: Request) {
           : "sent";
       const errors = Array.isArray(payload.errors) ? payload.errors as Array<{ code?: string }> : [];
       const { data: currentMessage } = await svc.from("messages").select("business_id,status").eq("telnyx_message_id", providerMessageId).maybeSingle();
+      if (!currentMessage) throw new Error("outbound_message_not_ready");
       const rank: Record<string, number> = { queued: 0, sending: 1, sent: 2, delivered: 3, undelivered: 3, failed: 3, blocked: 4 };
       const shouldUpdate = currentMessage && (rank[status] ?? 0) >= (rank[currentMessage.status] ?? 0);
       if (shouldUpdate) {
@@ -125,6 +130,6 @@ export async function POST(req: Request) {
       business_id: businessId,
       error_code: error instanceof Error ? error.message.slice(0, 120) : "processing_failed",
     });
-    return NextResponse.json({ received: true, processing: "failed" });
+    return NextResponse.json({ error: "processing_failed" }, { status: 500 });
   }
 }

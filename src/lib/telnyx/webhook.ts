@@ -36,11 +36,23 @@ export async function acceptTelnyxWebhook(req: Request): Promise<AcceptedWebhook
     call_control_id: typeof payload.call_control_id === "string" ? payload.call_control_id : null,
     message_id: typeof payload.id === "string" ? payload.id : null,
     payload,
-    status: "received",
+    status: "processing",
     attempts: event.meta?.attempt ?? 0,
   });
   if (!error) return { event, duplicate: false };
-  if (error.code === "23505") return { event, duplicate: true };
+  if (error.code === "23505") {
+    const { data: stored, error: lookupError } = await svc.from("telnyx_events").select("status,attempts").eq("event_id", event.data.id).maybeSingle();
+    if (lookupError || !stored) throw new Error("event_storage_failed");
+    if (["processing", "processed", "ignored"].includes(stored.status)) return { event, duplicate: true };
+    const { error: claimError } = await svc.from("telnyx_events").update({
+      status: "processing",
+      attempts: (stored.attempts ?? 0) + 1,
+      error_code: null,
+      updated_at: new Date().toISOString(),
+    }).eq("event_id", event.data.id).in("status", ["received", "failed"]);
+    if (claimError) throw new Error("event_storage_failed");
+    return { event, duplicate: false };
+  }
   throw new Error("event_storage_failed");
 }
 

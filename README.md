@@ -6,7 +6,7 @@ Telnyx delivery is gated by provider credentials, a verified toll-free number, f
 
 ## Local development
 
-Requirements: Node.js 20+, npm, and a Supabase project.
+Requirements: Node.js 24+, npm, and a Supabase project.
 
 ```bash
 cp .env.example .env.local
