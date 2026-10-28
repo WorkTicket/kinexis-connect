@@ -2,7 +2,7 @@
 
 ## 1. Supabase
 
-Create or select the production project, then apply every file in `supabase/migrations/` in filename order. Do not skip migrations `0003` through `0008`; they add bundled plans, included entitlements, team invitations, operational RLS, PayPal event linkage, the Telnyx phone system, and the non-recursive membership policy helper.
+Create or select the production project, then apply every file in `supabase/migrations/` in filename order. Do not skip migrations `0003` through `0009`; they add bundled plans, included entitlements, team invitations, operational RLS, PayPal event linkage, the Telnyx phone system, the non-recursive membership policy helper, and its explicit anonymous-role restriction.
 
 Apply `0006_rls_paypal_event_linkage.sql` before deploying code that writes `provider_events.subscription_id` and `provider_events.provider_subscription_id`. After deployment, resend any previously processed PayPal activation/payment events so their provider payload can be used to repair linkage and billing amounts safely.
 
