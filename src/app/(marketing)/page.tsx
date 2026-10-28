@@ -24,9 +24,9 @@ export default function Home() {
               <Link href="/pricing" className="outline-button">View pricing</Link>
             </div>
             <ul className="connect-checks">
-              <li>No new phone habits for your team</li>
-              <li>Two-way customer inbox</li>
-              <li>Consent-aware messaging controls</li>
+              <li><span className="connect-checks__mark" aria-hidden="true">✓</span><span>No new phone habits for your team</span></li>
+              <li><span className="connect-checks__mark" aria-hidden="true">✓</span><span>Two-way customer inbox</span></li>
+              <li><span className="connect-checks__mark" aria-hidden="true">✓</span><span>Consent-aware messaging controls</span></li>
             </ul>
           </div>
           <div className="connect-hero__art">
