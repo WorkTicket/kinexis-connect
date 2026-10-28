@@ -4,6 +4,8 @@ import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 import { TeamManager } from "@/components/app/TeamManager";
 
+type Carrier = "verizon" | "att" | "tmobile" | "other" | "unknown";
+
 type SettingsPayload = {
   business: { id: string; name: string; industry: string | null; timezone: string; status: string };
   settings: {
@@ -19,7 +21,14 @@ type SettingsPayload = {
     after_hours_mode: "hold" | "skip";
     sms_consent_review_status: string;
   };
-  phone: { e164: string; sms_registration_status: string } | null;
+  phone: { e164: string; sms_registration_status: string; provider: string } | null;
+  integration: {
+    existing_phone_e164: string | null;
+    carrier: Carrier | null;
+    forwarding_status: string;
+    caller_id_preserved: boolean | null;
+  } | null;
+  verification: { status: string; rejection_reason: string | null } | null;
   notifications: { email_on_new_reply: boolean };
 };
 
@@ -57,6 +66,17 @@ export default function Settings() {
     event.preventDefault();
     if (!data) return;
     setSaving(true); setMessage(""); setError("");
+    const activationResponse = await fetch(data.settings.auto_reply_enabled ? "/api/phone/activate" : "/api/phone/disable", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ business_id: businessId }),
+    });
+    if (!activationResponse.ok) {
+      const activationPayload = await activationResponse.json();
+      setSaving(false);
+      setError(activationPayload.error?.message ?? "Phone automation could not be updated.");
+      return;
+    }
     const response = await fetch("/api/settings", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
       business_id: businessId,
       business_name: data.business.name,
@@ -64,7 +84,6 @@ export default function Settings() {
       timezone: data.business.timezone,
       forward_to_e164: data.settings.forward_to_e164 || null,
       ring_timeout_seconds: Number(data.settings.ring_timeout_seconds),
-      auto_reply_enabled: data.settings.auto_reply_enabled,
       auto_reply_template: data.settings.auto_reply_template,
       auto_reply_cooldown_hours: Number(data.settings.auto_reply_cooldown_hours),
       quiet_hours_enabled: data.settings.quiet_hours_enabled,
@@ -72,6 +91,8 @@ export default function Settings() {
       quiet_end_local: data.settings.quiet_end_local,
       after_hours_mode: data.settings.after_hours_mode,
       email_on_new_reply: data.notifications.email_on_new_reply,
+      existing_phone_e164: data.integration?.existing_phone_e164 || null,
+      carrier: data.integration?.carrier ?? "unknown",
     }) });
     const payload = await response.json();
     setSaving(false);
@@ -82,16 +103,16 @@ export default function Settings() {
   if (error && !data) return <div className="dashboard-page"><h1>Settings</h1><div className="auth-notice auth-notice--error">{error}</div></div>;
   if (!data) return <div className="dashboard-page"><h1>Settings</h1><div className="settings-skeleton">Loading your business settings…</div></div>;
 
-  const twilioReady = Boolean(data.phone && data.phone.sms_registration_status === "approved" && data.settings.sms_consent_review_status === "approved");
+  const telnyxReady = Boolean(data.phone && data.phone.sms_registration_status === "approved" && data.settings.sms_consent_review_status === "approved" && data.integration?.forwarding_status === "verified");
   return (
     <div className="dashboard-page">
       <header className="dashboard-heading"><div><p className="eyebrow">Configuration</p><h1>Settings</h1><p>Manage business details, forwarding, automatic replies, and quiet hours.</p></div></header>
-      {!twilioReady ? <section className="integration-banner"><Image src="/assets/connect/empty-states/setup-phone-number.svg" alt="" width={400} height={300} /><div><span>Twilio activation pending</span><h2>Messaging is safely disabled.</h2><p>You can finish configuring your account now. Calling and texting will remain off until a Connect number and approved messaging registration are attached.</p></div></section> : null}
+      {!telnyxReady ? <section className="integration-banner"><Image src="/assets/connect/empty-states/setup-phone-number.svg" alt="" width={400} height={300} /><div><span>Telnyx activation pending</span><h2>Messaging is safely disabled.</h2><p>Calling and texting remain off until a toll-free number is assigned, forwarding tests pass, and the end business&apos;s toll-free verification is approved.</p></div></section> : null}
       <form onSubmit={save} className="settings-form">
         {message ? <div className="auth-notice auth-notice--success">{message}</div> : null}{error ? <div className="auth-notice auth-notice--error">{error}</div> : null}
         <section className="settings-section"><div><h2>Business profile</h2><p>Basic information used throughout Connect.</p></div><div className="settings-fields"><label>Business name<input value={data.business.name} required onChange={(event) => updateBusiness("name", event.target.value)} /></label><label>Industry<input value={data.business.industry ?? ""} onChange={(event) => updateBusiness("industry", event.target.value)} /></label><label>Timezone<select value={data.business.timezone} onChange={(event) => updateBusiness("timezone", event.target.value)}><option value="America/New_York">Eastern Time</option><option value="America/Chicago">Central Time</option><option value="America/Denver">Mountain Time</option><option value="America/Los_Angeles">Pacific Time</option><option value="America/Phoenix">Arizona</option><option value="Pacific/Honolulu">Hawaii</option></select></label></div></section>
-        <section className="settings-section"><div><h2>Phone forwarding</h2><p>Where incoming calls should ring.</p></div><div className="settings-fields"><label>Connect number<input value={data.phone?.e164 ?? "Pending assignment"} disabled /></label><label>Forward calls to<input placeholder="+15551234567" value={data.settings.forward_to_e164 ?? ""} onChange={(event) => updateSetting("forward_to_e164", event.target.value)} /><span className="field-hint">Use E.164 format, including +1 for US numbers.</span></label><label>Ring time<select value={data.settings.ring_timeout_seconds} onChange={(event) => updateSetting("ring_timeout_seconds", Number(event.target.value))}><option value={15}>15 seconds</option><option value={20}>20 seconds</option><option value={25}>25 seconds</option><option value={30}>30 seconds</option><option value={35}>35 seconds</option><option value={40}>40 seconds</option></select></label></div></section>
-        <section className="settings-section"><div><h2>Automatic reply</h2><p>Prepared now; activated after Twilio approval.</p></div><div className="settings-fields"><label className="toggle-field"><input type="checkbox" checked={data.settings.auto_reply_enabled} onChange={(event) => updateSetting("auto_reply_enabled", event.target.checked)} /><span><strong>Enable missed-call reply</strong><small>Messages remain blocked until activation requirements pass.</small></span></label><label className="settings-fields__wide">Message template<textarea rows={5} maxLength={320} value={data.settings.auto_reply_template} onChange={(event) => updateSetting("auto_reply_template", event.target.value)} /><span className="field-hint">Use {"{business_name}"} to insert your business name. {data.settings.auto_reply_template.length}/320</span></label><label>Cooldown<select value={data.settings.auto_reply_cooldown_hours} onChange={(event) => updateSetting("auto_reply_cooldown_hours", Number(event.target.value))}><option value={12}>12 hours</option><option value={24}>24 hours</option><option value={48}>48 hours</option><option value={72}>72 hours</option><option value={168}>7 days</option></select></label></div></section>
+        <section className="settings-section"><div><h2>Phone forwarding</h2><p>Forward unanswered calls from the existing business phone to its dedicated Connect number.</p></div><div className="settings-fields"><label>Connect toll-free number<input value={data.phone?.e164 ?? "Pending assignment"} disabled /></label><label>Existing business phone<input placeholder="+15551234567" value={data.integration?.existing_phone_e164 ?? ""} onChange={(event) => setData((current) => current ? { ...current, integration: { existing_phone_e164: event.target.value, carrier: current.integration?.carrier ?? "unknown", forwarding_status: current.integration?.forwarding_status ?? "not_started", caller_id_preserved: current.integration?.caller_id_preserved ?? null } } : current)} /><span className="field-hint">Use E.164 format, including +1 for US numbers.</span></label><label>Carrier<select value={data.integration?.carrier ?? "unknown"} onChange={(event) => setData((current) => current ? { ...current, integration: { existing_phone_e164: current.integration?.existing_phone_e164 ?? null, carrier: event.target.value as Carrier, forwarding_status: current.integration?.forwarding_status ?? "not_started", caller_id_preserved: current.integration?.caller_id_preserved ?? null } } : current)}><option value="unknown">Select carrier</option><option value="verizon">Verizon</option><option value="att">AT&amp;T</option><option value="tmobile">T-Mobile</option><option value="other">Other</option></select></label><label>Forwarding test status<input value={data.integration?.forwarding_status?.replaceAll("_", " ") ?? "Not started"} disabled /></label><label>Toll-free verification<input value={data.verification?.status?.replaceAll("_", " ") ?? data.phone?.sms_registration_status?.replaceAll("_", " ") ?? "Not started"} disabled /></label><div className="settings-fields__wide field-hint">After a number is assigned, configure conditional no-answer forwarding with your carrier. Test one answered call and one unanswered call from another phone. Connect must receive only the unanswered call and preserve the original caller&apos;s number.</div></div></section>
+        <section className="settings-section"><div><h2>Automatic reply</h2><p>Prepared now; activated after Telnyx and forwarding approval.</p></div><div className="settings-fields"><label className="toggle-field"><input type="checkbox" checked={data.settings.auto_reply_enabled} onChange={(event) => updateSetting("auto_reply_enabled", event.target.checked)} /><span><strong>Enable press-1 text reply</strong><small>The caller must press 1 before Connect queues a message.</small></span></label><label className="settings-fields__wide">Message template<textarea rows={5} maxLength={320} value={data.settings.auto_reply_template} onChange={(event) => updateSetting("auto_reply_template", event.target.value)} /><span className="field-hint">Use {"{business_name}"} to insert your business name. {data.settings.auto_reply_template.length}/320</span></label><label>Cooldown<select value={data.settings.auto_reply_cooldown_hours} onChange={(event) => updateSetting("auto_reply_cooldown_hours", Number(event.target.value))}><option value={12}>12 hours</option><option value={24}>24 hours</option><option value={48}>48 hours</option><option value={72}>72 hours</option><option value={168}>7 days</option></select></label></div></section>
         <section className="settings-section"><div><h2>Quiet hours</h2><p>Control automatic messages outside business hours.</p></div><div className="settings-fields"><label className="toggle-field"><input type="checkbox" checked={data.settings.quiet_hours_enabled} onChange={(event) => updateSetting("quiet_hours_enabled", event.target.checked)} /><span><strong>Respect quiet hours</strong><small>Uses the business timezone above.</small></span></label><label>Start<input type="time" value={data.settings.quiet_start_local.slice(0, 5)} onChange={(event) => updateSetting("quiet_start_local", event.target.value)} /></label><label>End<input type="time" value={data.settings.quiet_end_local.slice(0, 5)} onChange={(event) => updateSetting("quiet_end_local", event.target.value)} /></label><label>After-hours behavior<select value={data.settings.after_hours_mode} onChange={(event) => updateSetting("after_hours_mode", event.target.value)}><option value="skip">Skip the automatic reply</option><option value="hold">Hold until quiet hours end</option></select></label></div></section>
         <section className="settings-section"><div><h2>Notifications</h2><p>Choose when Connect should email you.</p></div><div className="settings-fields"><label className="toggle-field"><input type="checkbox" checked={data.notifications.email_on_new_reply} onChange={(event) => setData((current) => current ? { ...current, notifications: { email_on_new_reply: event.target.checked } } : current)} /><span><strong>Email me when a customer replies</strong><small>Delivery requires the production email provider to be configured.</small></span></label></div></section>
         <section className="settings-section"><div><h2>Team</h2><p>Invite teammates within your plan’s seat limit.</p></div><TeamManager businessId={businessId} /></section>

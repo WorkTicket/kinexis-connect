@@ -30,14 +30,15 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
   const businesses = await getUserBusinesses(user.id);
   const m = businesses.find((b: { business_id: string }) => b.business_id === conv.business_id);
   if (!m) return NextResponse.json({ error: { code: "forbidden", message: "No access", request_id: crypto.randomUUID() } }, { status: 403 });
-  const [{ data: subscription }, { data: settings }, { data: phone }] = await Promise.all([
+  const [{ data: subscription }, { data: entitlement }, { data: settings }, { data: phone }] = await Promise.all([
     svc.from("subscriptions").select("status").eq("business_id", conv.business_id).maybeSingle(),
+    svc.from("included_entitlements").select("active").eq("business_id", conv.business_id).eq("active", true).maybeSingle(),
     svc.from("business_settings").select("sms_consent_review_status").eq("business_id", conv.business_id).maybeSingle(),
     svc.from("phone_numbers").select("sms_enabled,sms_registration_status").eq("business_id", conv.business_id).maybeSingle(),
   ]);
-  const providerConfigured = Boolean(process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN && process.env.TWILIO_MESSAGING_SERVICE_SID);
-  const messagingReady = isMessagingReady({ providerConfigured, subscriptionStatus: subscription?.status, consentReviewStatus: settings?.sms_consent_review_status, smsEnabled: phone?.sms_enabled, registrationStatus: phone?.sms_registration_status });
-  if (!messagingReady) return NextResponse.json({ error: { code: "messaging_unavailable", message: "Messaging is pending Twilio and compliance activation", request_id: crypto.randomUUID() } }, { status: 503 });
+  const providerConfigured = Boolean(process.env.TELNYX_API_KEY && process.env.TELNYX_PUBLIC_KEY && process.env.TELNYX_MESSAGING_PROFILE_ID);
+  const messagingReady = isMessagingReady({ providerConfigured, subscriptionStatus: subscription?.status, entitlementActive: entitlement?.active, consentReviewStatus: settings?.sms_consent_review_status, smsEnabled: phone?.sms_enabled, registrationStatus: phone?.sms_registration_status });
+  if (!messagingReady) return NextResponse.json({ error: { code: "messaging_unavailable", message: "Messaging is pending Telnyx and compliance activation", request_id: crypto.randomUUID() } }, { status: 503 });
   const { data: msg } = await svc.from("messages").insert({
     business_id: conv.business_id,
     conversation_id: conv.id,

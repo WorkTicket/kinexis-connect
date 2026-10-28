@@ -4,5 +4,10 @@
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat"],
   "keep_vars": true,
-  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" }
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  "vars": {
+    "TELNYX_VOICE_APPLICATION_ID": "3080956390412387673",
+    "TELNYX_MESSAGING_PROFILE_ID": "4001a184-7f84-4593-83b0-2bfc2d818d14",
+    "TELNYX_WEBHOOK_URL": "https://connect.kinexisdigital.com"
+  }
 }

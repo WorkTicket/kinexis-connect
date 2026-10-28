@@ -2,7 +2,7 @@
 
 KINEXIS Connect is a multi-tenant missed-call text-back SaaS. It includes Supabase authentication, business onboarding, PayPal subscriptions, entitlement-gated bundled plans, customer and admin dashboards, settings, inbox history, and team management.
 
-Twilio delivery is intentionally isolated and disabled until provider credentials, number registration, compliance approval, and an active subscription are all present. The application never reports an unsent message as sent.
+Telnyx delivery is gated by provider credentials, a verified toll-free number, forwarding tests, documented caller consent, compliance approval, and an active subscription or included entitlement. The application never reports an unsent message as sent.
 
 ## Local development
 
@@ -23,7 +23,7 @@ Open `http://localhost:3000`. Apply the SQL files in `supabase/migrations/` in f
 - PayPal client credentials, webhook ID, and three plan IDs
 - A strong `INTERNAL_JOB_SECRET`
 
-Twilio variables may remain blank while delivery is out of scope. See [`.env.example`](.env.example) and [`docs/deployment.md`](docs/deployment.md).
+Telnyx variables may remain blank before phone activation. See [`.env.example`](.env.example) and [`docs/deployment.md`](docs/deployment.md).
 
 ## Quality checks
 

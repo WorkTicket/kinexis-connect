@@ -21,4 +21,8 @@ describe("messaging readiness", () => {
   it("allows a trialing subscription only when all other gates pass", () => {
     expect(isMessagingReady({ ...ready, subscriptionStatus: "trialing" })).toBe(true);
   });
+
+  it("accepts an active included entitlement instead of a paid subscription", () => {
+    expect(isMessagingReady({ ...ready, subscriptionStatus: null, entitlementActive: true })).toBe(true);
+  });
 });

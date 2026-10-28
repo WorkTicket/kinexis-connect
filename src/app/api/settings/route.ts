@@ -16,7 +16,11 @@ export async function GET(req: Request) {
   const { data: biz } = await svc.from("businesses").select("*").eq("id", businessId).maybeSingle();
   const { data: phone } = await svc.from("phone_numbers").select("*").eq("business_id", businessId).maybeSingle();
   const { data: notifications } = await svc.from("notification_preferences").select("*").eq("business_id", businessId).eq("user_id", user.id).maybeSingle();
-  return NextResponse.json({ business: biz, settings: data, phone, notifications: notifications ?? { email_on_new_reply: true } });
+  const { data: integration } = await svc.from("phone_integrations").select("*").eq("business_id", businessId).maybeSingle();
+  const { data: verification } = phone
+    ? await svc.from("tollfree_verifications").select("status,rejection_reason,submitted_at,verified_at").eq("phone_number_id", phone.id).maybeSingle()
+    : { data: null };
+  return NextResponse.json({ business: biz, settings: data, phone, integration, verification, notifications: notifications ?? { email_on_new_reply: true } });
 }
 
 export async function PATCH(req: Request) {
@@ -32,7 +36,13 @@ export async function PATCH(req: Request) {
   const parsed = settingsPatchSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: { code: "validation", message: "Invalid payload", request_id: crypto.randomUUID() } }, { status: 422 });
   const svc = createSupabaseServiceClient();
-  const { business_name, industry, timezone, email_on_new_reply, ...settingValues } = parsed.data;
+  if (parsed.data.auto_reply_enabled === true) {
+    const { data: current } = await svc.from("business_settings").select("auto_reply_enabled").eq("business_id", businessId).maybeSingle();
+    if (!current?.auto_reply_enabled) {
+      return NextResponse.json({ error: { code: "activation_required", message: "Use the phone activation flow after all verification checks pass", request_id: crypto.randomUUID() } }, { status: 409 });
+    }
+  }
+  const { business_name, industry, timezone, email_on_new_reply, existing_phone_e164, carrier, ...settingValues } = parsed.data;
   let business = null;
   if (business_name !== undefined || industry !== undefined || timezone !== undefined) {
     const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
@@ -52,6 +62,14 @@ export async function PATCH(req: Request) {
   if (email_on_new_reply !== undefined) {
     const result = await svc.from("notification_preferences").upsert({ user_id: user.id, business_id: businessId, email_on_new_reply, updated_at: new Date().toISOString() }, { onConflict: "business_id,user_id" });
     if (result.error) return NextResponse.json({ error: { code: "server_error", message: "Notification preference update failed", request_id: crypto.randomUUID() } }, { status: 500 });
+  }
+  if (existing_phone_e164 !== undefined || carrier !== undefined) {
+    const integrationValues: Record<string, unknown> = { business_id: businessId, updated_at: new Date().toISOString() };
+    if (existing_phone_e164 !== undefined) integrationValues.existing_phone_e164 = existing_phone_e164;
+    if (carrier !== undefined) integrationValues.carrier = carrier;
+    integrationValues.forwarding_status = "instructions_shown";
+    const result = await svc.from("phone_integrations").upsert(integrationValues, { onConflict: "business_id" });
+    if (result.error) return NextResponse.json({ error: { code: "server_error", message: "Phone integration update failed", request_id: crypto.randomUUID() } }, { status: 500 });
   }
   await svc.from("audit_logs").insert({ actor_user_id: user.id, business_id: businessId, action: "settings.updated", resource_type: "business_settings", resource_id: businessId, metadata: { fields: Object.keys(parsed.data) } });
   return NextResponse.json({ business, settings });

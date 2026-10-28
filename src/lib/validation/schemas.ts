@@ -19,6 +19,8 @@ export const settingsPatchSchema = z.object({
   quiet_end_local: localTime.optional(),
   after_hours_mode: z.enum(["hold", "skip"]).optional(),
   email_on_new_reply: z.boolean().optional(),
+  existing_phone_e164: E164.nullable().optional(),
+  carrier: z.enum(["verizon", "att", "tmobile", "other", "unknown"]).optional(),
 });
 
 export const sendMessageSchema = z.object({

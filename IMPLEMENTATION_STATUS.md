@@ -9,18 +9,18 @@
 | Included-plan entitlements | Complete — admin-granted Lead System/Plus access and server-side enforcement |
 | Team management | Complete — owner invitations, existing-user assignment, acceptance, revocation/removal, roles, and plan seat limits |
 | Platform administration | Complete — role guard, overview, businesses, subscriptions, provider events, audit logs, and entitlements |
-| Twilio delivery | Intentionally disabled — readiness gates and queueing exist; no provider adapter or fake delivery |
+| Telnyx delivery | Implemented — signed webhooks, press-1 consent, idempotent queueing, SMS delivery/status, opt-outs, and usage tracking |
 | Automated validation | Complete — lint, TypeScript, unit tests, and Next.js production build pass |
 | Deployment readiness | Complete in repository — OpenNext/Wrangler configuration and runbook provided |
 
 ## External actions still required
 
 1. Apply migrations `0001` through `0006` to the target Supabase project.
-2. Configure Supabase site URL and allowed auth redirect URLs.
-3. Configure Zoho SMTP for production authentication email.
-4. Run the sandbox signup → onboarding → checkout → activation acceptance test.
-5. Configure Twilio only when calling/SMS delivery enters scope.
+2. Add the card/account balance, then manually purchase and assign the pilot toll-free number (no purchase is performed by this repository).
+3. Add `TELNYX_PUBLIC_KEY` to the Worker and apply the IDs already present in `wrangler.jsonc`.
+4. Complete the pilot business's toll-free verification and real Verizon/AT&T/T-Mobile forwarding tests.
+5. Configure Supabase Auth URLs, production SMTP, and the authenticated outbound-job schedule.
 
 The PayPal sandbox webhook is configured, and the Cloudflare Worker was redeployed with production public build values on October 28, 2026.
 
-Real messaging remains blocked by design until Twilio and compliance prerequisites are complete.
+Real messaging remains blocked by design until Telnyx, billing, forwarding, consent, and compliance prerequisites are complete.

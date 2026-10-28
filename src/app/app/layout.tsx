@@ -7,7 +7,7 @@ import { getCurrentUser } from "@/lib/auth/membership";
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const user = await getCurrentUser();
   if (!user) redirect("/login?next=/app");
-  const twilioConfigured = Boolean(process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN && process.env.TWILIO_MESSAGING_SERVICE_SID);
+  const telnyxConfigured = Boolean(process.env.TELNYX_API_KEY && process.env.TELNYX_PUBLIC_KEY && process.env.TELNYX_MESSAGING_PROFILE_ID && process.env.TELNYX_VOICE_APPLICATION_ID);
 
   return (
     <div className="flex min-h-screen">
@@ -29,7 +29,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           <Link href="/app"><Image src="/assets/connect/brand/connect-logo-horizontal.webp" alt="KINEXIS Connect" width={150} height={50} className="h-8 w-auto" /></Link>
           <LogoutButton />
         </header>
-        {!twilioConfigured ? <div className="provider-disabled-notice" role="status"><strong>Messaging is disabled.</strong> Twilio setup and phone verification must be completed before Connect can send or receive messages.</div> : null}
+        {!telnyxConfigured ? <div className="provider-disabled-notice" role="status"><strong>Messaging is disabled.</strong> Telnyx setup and phone verification must be completed before Connect can send or receive messages.</div> : null}
         <main className="max-w-[1440px] p-5 md:p-8">{children}</main>
         <nav className="mobile-app-nav" aria-label="Mobile dashboard navigation">
           {["Overview:/app","Inbox:/app/inbox","Calls:/app/calls","Settings:/app/settings"].map((item) => { const [label, href] = item.split(":"); return <Link href={href} key={href}>{label}</Link>; })}
