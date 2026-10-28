@@ -1,0 +1,212 @@
+[
+  {
+    "file": "public/assets/connect/illustrations/connect-hero-flow.svg",
+    "width": 1400,
+    "height": 1200,
+    "status": "created",
+    "description": "A missed business call triggers an automatic text, a customer response, and a recovered lead"
+  },
+  {
+    "file": "public/assets/connect/illustrations/connect-cta-conversation.svg",
+    "width": 900,
+    "height": 700,
+    "status": "created",
+    "description": "An incoming customer message and a booked job"
+  },
+  {
+    "file": "public/assets/connect/illustrations/auth-side-panel.svg",
+    "width": 1000,
+    "height": 1400,
+    "status": "created",
+    "description": "A business phone, missed call, and automatic text conversation"
+  },
+  {
+    "file": "public/assets/connect/illustrations/missed-call-workflow.svg",
+    "width": 1800,
+    "height": 700,
+    "status": "created",
+    "description": "Missed call, automatic text, customer response, recovered opportunity"
+  },
+  {
+    "file": "public/assets/connect/illustrations/missed-call-workflow-mobile.svg",
+    "width": 480,
+    "height": 1400,
+    "status": "created",
+    "description": "Four vertically connected stages from missed call to recovered opportunity"
+  },
+  {
+    "file": "public/assets/connect/onboarding/verify-email.svg",
+    "width": 480,
+    "height": 360,
+    "status": "created",
+    "description": "verify email"
+  },
+  {
+    "file": "public/assets/connect/onboarding/business-setup.svg",
+    "width": 480,
+    "height": 360,
+    "status": "created",
+    "description": "business setup"
+  },
+  {
+    "file": "public/assets/connect/onboarding/phone-setup.svg",
+    "width": 480,
+    "height": 360,
+    "status": "created",
+    "description": "phone setup"
+  },
+  {
+    "file": "public/assets/connect/onboarding/subscription-active.svg",
+    "width": 480,
+    "height": 360,
+    "status": "created",
+    "description": "subscription active"
+  },
+  {
+    "file": "public/assets/connect/onboarding/setup-complete.svg",
+    "width": 600,
+    "height": 450,
+    "status": "created",
+    "description": "setup complete"
+  },
+  {
+    "file": "public/assets/connect/icons/call-routing.svg",
+    "width": 96,
+    "height": 96,
+    "status": "created",
+    "description": "call routing"
+  },
+  {
+    "file": "public/assets/connect/icons/missed-call-detection.svg",
+    "width": 96,
+    "height": 96,
+    "status": "created",
+    "description": "missed call detection"
+  },
+  {
+    "file": "public/assets/connect/icons/instant-text-back.svg",
+    "width": 96,
+    "height": 96,
+    "status": "created",
+    "description": "instant text back"
+  },
+  {
+    "file": "public/assets/connect/icons/two-way-inbox.svg",
+    "width": 96,
+    "height": 96,
+    "status": "created",
+    "description": "two way inbox"
+  },
+  {
+    "file": "public/assets/connect/icons/lead-analytics.svg",
+    "width": 96,
+    "height": 96,
+    "status": "created",
+    "description": "lead analytics"
+  },
+  {
+    "file": "public/assets/connect/icons/consent-compliance.svg",
+    "width": 96,
+    "height": 96,
+    "status": "created",
+    "description": "consent compliance"
+  },
+  {
+    "file": "public/assets/connect/icons/quiet-hours.svg",
+    "width": 96,
+    "height": 96,
+    "status": "created",
+    "description": "quiet hours"
+  },
+  {
+    "file": "public/assets/connect/icons/delivery-status.svg",
+    "width": 96,
+    "height": 96,
+    "status": "created",
+    "description": "delivery status"
+  },
+  {
+    "file": "public/assets/connect/empty-states/empty-inbox.svg",
+    "width": 400,
+    "height": 300,
+    "status": "created",
+    "description": "empty inbox"
+  },
+  {
+    "file": "public/assets/connect/empty-states/empty-calls.svg",
+    "width": 400,
+    "height": 300,
+    "status": "created",
+    "description": "empty calls"
+  },
+  {
+    "file": "public/assets/connect/empty-states/empty-contacts.svg",
+    "width": 400,
+    "height": 300,
+    "status": "created",
+    "description": "empty contacts"
+  },
+  {
+    "file": "public/assets/connect/empty-states/empty-analytics.svg",
+    "width": 400,
+    "height": 300,
+    "status": "created",
+    "description": "empty analytics"
+  },
+  {
+    "file": "public/assets/connect/empty-states/empty-billing.svg",
+    "width": 400,
+    "height": 300,
+    "status": "created",
+    "description": "empty billing"
+  },
+  {
+    "file": "public/assets/connect/empty-states/empty-search.svg",
+    "width": 400,
+    "height": 300,
+    "status": "created",
+    "description": "empty search"
+  },
+  {
+    "file": "public/assets/connect/empty-states/setup-phone-number.svg",
+    "width": 400,
+    "height": 300,
+    "status": "created",
+    "description": "setup phone number"
+  },
+  {
+    "file": "public/assets/connect/empty-states/setup-forwarding.svg",
+    "width": 400,
+    "height": 300,
+    "status": "created",
+    "description": "setup forwarding"
+  },
+  {
+    "file": "public/assets/connect/pricing/plan-starter.svg",
+    "width": 300,
+    "height": 180,
+    "status": "created",
+    "description": "Plan starter"
+  },
+  {
+    "file": "public/assets/connect/pricing/plan-professional.svg",
+    "width": 300,
+    "height": 180,
+    "status": "created",
+    "description": "Plan professional with a featured star"
+  },
+  {
+    "file": "public/assets/connect/pricing/plan-premium.svg",
+    "width": 300,
+    "height": 180,
+    "status": "created",
+    "description": "Plan premium"
+  },
+  {
+    "file": "public/assets/connect/brand/connect-social.svg",
+    "width": 1200,
+    "height": 630,
+    "status": "created",
+    "description": "KINEXIS Connect social sharing image"
+  }
+]

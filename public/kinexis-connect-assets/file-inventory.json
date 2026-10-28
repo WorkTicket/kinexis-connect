@@ -1,0 +1,313 @@
+[
+  {
+    "file": "public/assets/connect/brand/favicon.svg",
+    "bytes": 3414,
+    "viewBox": "20 -40 760 760"
+  },
+  {
+    "file": "public/assets/connect/brand/app-icon-512.png",
+    "bytes": 44939,
+    "size": [
+      512,
+      512
+    ]
+  },
+  {
+    "file": "public/assets/connect/brand/connect-logo-dark.svg",
+    "bytes": 306209,
+    "viewBox": "0 0 2048 682"
+  },
+  {
+    "file": "public/assets/connect/brand/connect-social.webp",
+    "bytes": 55186,
+    "size": [
+      1200,
+      630
+    ]
+  },
+  {
+    "file": "public/assets/connect/brand/favicon-16.png",
+    "bytes": 699,
+    "size": [
+      16,
+      16
+    ]
+  },
+  {
+    "file": "public/assets/connect/brand/connect-icon.svg",
+    "bytes": 3414,
+    "viewBox": "20 -40 760 760"
+  },
+  {
+    "file": "public/assets/connect/brand/app-icon-32.png",
+    "bytes": 1516,
+    "size": [
+      32,
+      32
+    ]
+  },
+  {
+    "file": "public/assets/connect/brand/app-icon-192.png",
+    "bytes": 14799,
+    "size": [
+      192,
+      192
+    ]
+  },
+  {
+    "file": "public/assets/connect/brand/email-logo.png",
+    "bytes": 30132,
+    "size": [
+      480,
+      160
+    ]
+  },
+  {
+    "file": "public/assets/connect/brand/app-icon-maskable-512.png",
+    "bytes": 41159,
+    "size": [
+      512,
+      512
+    ]
+  },
+  {
+    "file": "public/assets/connect/brand/connect-social.png",
+    "bytes": 124571,
+    "size": [
+      1200,
+      630
+    ]
+  },
+  {
+    "file": "public/assets/connect/brand/favicon.ico",
+    "bytes": 6162,
+    "size": [
+      48,
+      48
+    ]
+  },
+  {
+    "file": "public/assets/connect/brand/Kinexis_Connect_Logo.webp",
+    "bytes": 105628,
+    "size": [
+      2048,
+      682
+    ]
+  },
+  {
+    "file": "public/assets/connect/brand/connect-logo-horizontal.webp",
+    "bytes": 30990,
+    "size": [
+      2048,
+      682
+    ]
+  },
+  {
+    "file": "public/assets/connect/brand/connect-logo-horizontal.svg",
+    "bytes": 306209,
+    "viewBox": "0 0 2048 682"
+  },
+  {
+    "file": "public/assets/connect/brand/connect-logo-dark.webp",
+    "bytes": 30482,
+    "size": [
+      2048,
+      682
+    ]
+  },
+  {
+    "file": "public/assets/connect/brand/connect-social.svg",
+    "bytes": 309517,
+    "viewBox": "0 0 1200 630"
+  },
+  {
+    "file": "public/assets/connect/brand/app-icon-16.png",
+    "bytes": 699,
+    "size": [
+      16,
+      16
+    ]
+  },
+  {
+    "file": "public/assets/connect/brand/app-icon-180.png",
+    "bytes": 13822,
+    "size": [
+      180,
+      180
+    ]
+  },
+  {
+    "file": "public/assets/connect/brand/connect-logo-white.webp",
+    "bytes": 29246,
+    "size": [
+      2048,
+      682
+    ]
+  },
+  {
+    "file": "public/assets/connect/brand/favicon-32.png",
+    "bytes": 1516,
+    "size": [
+      32,
+      32
+    ]
+  },
+  {
+    "file": "public/assets/connect/brand/connect-logo-white.svg",
+    "bytes": 306209,
+    "viewBox": "0 0 2048 682"
+  },
+  {
+    "file": "public/assets/connect/brand/connect-icon-512.png",
+    "bytes": 44939,
+    "size": [
+      512,
+      512
+    ]
+  },
+  {
+    "file": "public/assets/connect/pricing/plan-starter.svg",
+    "bytes": 823,
+    "viewBox": "0 0 300 180"
+  },
+  {
+    "file": "public/assets/connect/pricing/plan-professional.svg",
+    "bytes": 1412,
+    "viewBox": "0 0 300 180"
+  },
+  {
+    "file": "public/assets/connect/pricing/plan-premium.svg",
+    "bytes": 1074,
+    "viewBox": "0 0 300 180"
+  },
+  {
+    "file": "public/assets/connect/onboarding/business-setup.svg",
+    "bytes": 2383,
+    "viewBox": "0 0 480 360"
+  },
+  {
+    "file": "public/assets/connect/onboarding/subscription-active.svg",
+    "bytes": 2235,
+    "viewBox": "0 0 480 360"
+  },
+  {
+    "file": "public/assets/connect/onboarding/verify-email.svg",
+    "bytes": 2001,
+    "viewBox": "0 0 480 360"
+  },
+  {
+    "file": "public/assets/connect/onboarding/setup-complete.svg",
+    "bytes": 2704,
+    "viewBox": "0 0 600 450"
+  },
+  {
+    "file": "public/assets/connect/onboarding/phone-setup.svg",
+    "bytes": 3440,
+    "viewBox": "0 0 480 360"
+  },
+  {
+    "file": "public/assets/connect/empty-states/empty-analytics.svg",
+    "bytes": 1727,
+    "viewBox": "0 0 400 300"
+  },
+  {
+    "file": "public/assets/connect/empty-states/empty-contacts.svg",
+    "bytes": 2561,
+    "viewBox": "0 0 400 300"
+  },
+  {
+    "file": "public/assets/connect/empty-states/setup-forwarding.svg",
+    "bytes": 2136,
+    "viewBox": "0 0 400 300"
+  },
+  {
+    "file": "public/assets/connect/empty-states/empty-calls.svg",
+    "bytes": 2287,
+    "viewBox": "0 0 400 300"
+  },
+  {
+    "file": "public/assets/connect/empty-states/setup-phone-number.svg",
+    "bytes": 2461,
+    "viewBox": "0 0 400 300"
+  },
+  {
+    "file": "public/assets/connect/empty-states/empty-inbox.svg",
+    "bytes": 1923,
+    "viewBox": "0 0 400 300"
+  },
+  {
+    "file": "public/assets/connect/empty-states/empty-billing.svg",
+    "bytes": 1792,
+    "viewBox": "0 0 400 300"
+  },
+  {
+    "file": "public/assets/connect/empty-states/empty-search.svg",
+    "bytes": 1577,
+    "viewBox": "0 0 400 300"
+  },
+  {
+    "file": "public/assets/connect/icons/delivery-status.svg",
+    "bytes": 797,
+    "viewBox": "0 0 96 96"
+  },
+  {
+    "file": "public/assets/connect/icons/call-routing.svg",
+    "bytes": 655,
+    "viewBox": "0 0 96 96"
+  },
+  {
+    "file": "public/assets/connect/icons/two-way-inbox.svg",
+    "bytes": 878,
+    "viewBox": "0 0 96 96"
+  },
+  {
+    "file": "public/assets/connect/icons/lead-analytics.svg",
+    "bytes": 603,
+    "viewBox": "0 0 96 96"
+  },
+  {
+    "file": "public/assets/connect/icons/consent-compliance.svg",
+    "bytes": 513,
+    "viewBox": "0 0 96 96"
+  },
+  {
+    "file": "public/assets/connect/icons/quiet-hours.svg",
+    "bytes": 510,
+    "viewBox": "0 0 96 96"
+  },
+  {
+    "file": "public/assets/connect/icons/instant-text-back.svg",
+    "bytes": 675,
+    "viewBox": "0 0 96 96"
+  },
+  {
+    "file": "public/assets/connect/icons/missed-call-detection.svg",
+    "bytes": 684,
+    "viewBox": "0 0 96 96"
+  },
+  {
+    "file": "public/assets/connect/illustrations/auth-side-panel.svg",
+    "bytes": 3639,
+    "viewBox": "0 0 1000 1400"
+  },
+  {
+    "file": "public/assets/connect/illustrations/connect-cta-conversation.svg",
+    "bytes": 3254,
+    "viewBox": "0 0 900 700"
+  },
+  {
+    "file": "public/assets/connect/illustrations/missed-call-workflow.svg",
+    "bytes": 3435,
+    "viewBox": "0 0 1800 700"
+  },
+  {
+    "file": "public/assets/connect/illustrations/missed-call-workflow-mobile.svg",
+    "bytes": 3232,
+    "viewBox": "0 0 480 1400"
+  },
+  {
+    "file": "public/assets/connect/illustrations/connect-hero-flow.svg",
+    "bytes": 5609,
+    "viewBox": "0 0 1400 1200"
+  }
+]
