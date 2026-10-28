@@ -17,7 +17,7 @@ export default function Home() {
         <div className="connect-container connect-hero__grid">
           <div className="connect-hero__copy">
             <p className="eyebrow">Missed-call text-back for service businesses</p>
-            <h1>Missed call.<br /><span>New conversation.</span></h1>
+            <h1><span>Turn Missed Calls</span><span className="connect-hero__headline-accent">Into New Leads</span></h1>
             <p className="connect-lead">Automatically follow up when you cannot answer, receive customer replies, and keep recovered opportunities organized.</p>
             <div className="connect-actions">
               <Link href="/signup" className="brand-button">Start now</Link>
@@ -60,16 +60,18 @@ export default function Home() {
             <p className="eyebrow">How it works</p>
             <h2>From unanswered call to active conversation.</h2>
           </div>
-          <picture className="workflow-art">
-            <source media="(max-width: 640px)" srcSet="/assets/connect/illustrations/missed-call-workflow-mobile.svg" />
-            <Image src="/assets/connect/illustrations/missed-call-workflow.svg" alt="Four steps: missed call, automatic text, customer response, and recovered opportunity" width={1800} height={700} />
-          </picture>
-          <ol className="workflow-labels">
-            <li><strong>Call missed</strong><span>Connect detects the unanswered attempt.</span></li>
-            <li><strong>Text prepared</strong><span>Your approved follow-up is queued.</span></li>
-            <li><strong>Customer replies</strong><span>The response appears in your inbox.</span></li>
-            <li><strong>Opportunity recovered</strong><span>Your team continues the conversation.</span></li>
-          </ol>
+          <div className="workflow-steps">
+            <picture className="workflow-art">
+              <source media="(max-width: 640px)" srcSet="/assets/connect/illustrations/missed-call-workflow-mobile.svg" />
+              <Image src="/assets/connect/illustrations/missed-call-workflow.svg" alt="Four steps: missed call, automatic text, customer response, and recovered opportunity" width={1800} height={700} />
+            </picture>
+            <ol className="workflow-labels">
+              <li><strong>Call missed</strong><span>Connect detects the unanswered attempt.</span></li>
+              <li><strong>Text prepared</strong><span>Your approved follow-up is queued.</span></li>
+              <li><strong>Customer replies</strong><span>The response appears in your inbox.</span></li>
+              <li><strong>Opportunity recovered</strong><span>Your team continues the conversation.</span></li>
+            </ol>
+          </div>
         </div>
       </section>
 
