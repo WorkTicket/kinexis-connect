@@ -35,5 +35,9 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|avif)$).*)"],
+  // Authentication is checked again in the protected layouts and API
+  // handlers. Keep this session-refresh/redirect layer on protected UI only;
+  // marketing pages, public APIs, webhooks, and static files need no Supabase
+  // user lookup in the request prelude.
+  matcher: ["/app/:path*", "/onboarding/:path*", "/admin/:path*"],
 };

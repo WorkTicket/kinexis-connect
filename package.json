@@ -1,5 +1,5 @@
 {
-  "name": "connect",
+  "name": "kinexis-platform",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,7 +11,11 @@
     "typecheck": "tsc --noEmit --incremental false",
     "format": "prettier --write .",
     "deploy": "opennextjs-cloudflare build && wrangler deploy",
-    "cf:build": "opennextjs-cloudflare build"
+    "cf:build": "opennextjs-cloudflare build",
+    "portal:dev": "npm --prefix apps/client-portal run dev",
+    "portal:build": "npm --prefix apps/client-portal run build",
+    "portal:preview": "npm --prefix apps/client-portal run preview",
+    "portal:deploy": "npm --prefix apps/client-portal run deploy"
   },
   "dependencies": {
     "@hookform/resolvers": "^6.0.0",

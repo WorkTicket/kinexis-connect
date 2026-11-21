@@ -1,0 +1,66 @@
+name: Release 3 validation
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main, seo/phase-3-connect]
+
+permissions:
+  contents: read
+
+jobs:
+  connect:
+    name: Connect tests and Worker build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run cf:build
+
+  portal:
+    name: Portal audit and Worker build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/client-portal
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/client-portal/package-lock.json
+      - run: npm ci
+      - run: npm audit --audit-level=low
+      - name: Build Portal and retain failure log
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run build 2>&1 | tee "$RUNNER_TEMP/portal-build.log"
+      - name: Include build diagnostics in run summary
+        if: failure()
+        shell: bash
+        run: |
+          if [[ -f "$RUNNER_TEMP/portal-build.log" ]]; then
+            details="$(tail -n 100 "$RUNNER_TEMP/portal-build.log")"
+            details="${details//'%'/'%25'}"
+            details="${details//$'\r'/'%0D'}"
+            details="${details//$'\n'/'%0A'}"
+            details="${details//'::'/'%3A%3A'}"
+            echo "::error title=Portal build log (last 100 lines)::$details"
+            {
+              echo "## Portal build diagnostics"
+              tail -n 120 "$RUNNER_TEMP/portal-build.log"
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "::error title=Portal build diagnostics::No Portal build log was produced."
+          fi
+      - run: npx opennextjs-cloudflare build

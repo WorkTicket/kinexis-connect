@@ -10,7 +10,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
             <Image src="/assets/connect/brand/connect-logo-horizontal.webp" alt="KINEXIS Connect" width={180} height={60} className="h-10 w-auto" priority />
           </Link>
           <nav className="connect-nav" aria-label="Main navigation">
-            <Link href="#features" className="hover:text-[#0B3DFF]">Features</Link>
+            <Link href="/#features" className="hover:text-[#0B3DFF]">Features</Link>
             <Link href="/pricing" className="hover:text-[#0B3DFF]">Pricing</Link>
             <Link href="/login" className="hover:text-[#0B3DFF]">Log in</Link>
             <Link href="/signup" className="nav-cta">Start now</Link>

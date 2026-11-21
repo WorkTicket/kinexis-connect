@@ -1,0 +1,8 @@
+/* Optional: merge into css/styles.css */
+:root {
+  --kinexis-navy: #101d3a;
+  --kinexis-cobalt: #0062ff;
+  --kinexis-orange: #ff7900;
+  --kinexis-cyan: #65dceb;
+  --kinexis-surface: #edf3ff;
+}
