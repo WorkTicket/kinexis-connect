@@ -52,14 +52,14 @@ Wrangler CLI help confirms the rollback command accepts a target version ID. If 
 | Portal local built-server metadata check | PASS — `/login` and `/register` returned 200 with `noindex,nofollow`; Googlebot was also no-indexed |
 | Portal generated `robots.txt` check | PASS — login/register allowed; portal/team/API disallowed |
 | Production after-change verification | NOT RUN — no deployment authorization |
-| Independent QA | PASS on safety/auth, robots/indexing intent, evidence claims, and regression-test coverage; QA did not rerun commands. Release readiness is FAIL/not deployable until the handoff, live crawl-source discrepancy, rollback verification, and owner-approval gates are resolved. |
+| Independent QA | PASS on safety/auth, robots/indexing intent, evidence claims, and regression-test coverage; QA did not rerun commands. Rollback target and command shape PASS by read-only review; actual recovery remains NOT VERIFIED. Release readiness remains FAIL/not deployable pending the source-control handoff, live crawl-source discrepancy, recovery verification, and specific owner approval. |
 
 ## Open items and gates
 
 1. **Portal source-control handoff — P1:** You confirmed that you are the owner. The Client Portal checkout still has no Git metadata or remote; identify its canonical source repository or confirm that this standalone folder is the intended source before preparing a tracked PR/deployment.
 2. **Connect crawl-source discrepancy — P1:** Connect/Cloudflare Operations should identify which deployment/configuration serves the current robots and sitemap resources and reconcile it with the checked-out Worker. Do not alter Cloudflare settings without authorization.
 3. **Performance target — NOT CLAIMED:** The November 21 single-vantage sample medians are below 800 ms, but the historical 3,138 ms Ahrefs Connect flag is not explained or disproven globally. Repeat comparable multi-region/crawl measurements after an approved release; do not attribute a production improvement to the local middleware change.
-4. **Independent QA / owner approval — P0 deployment gate:** QA reviewed this candidate and returned PASS on safety/auth, robots intent, evidence, and regression coverage, but FAIL for deployment readiness at that time. Read-only Wrangler history now identifies each pre-release version and CLI rollback syntax; the rollback itself remains untested. Recheck active versions, resolve the source-control and crawl-source discrepancies, obtain QA follow-up, then obtain your explicit approval for this specific deployment.
+4. **Independent QA / owner approval — P0 deployment gate:** QA returned PASS on code checks and on identifying the rollback target/command shape, but NOT VERIFIED for actual recovery and FAIL for release readiness. Recheck active versions, resolve the source-control and crawl-source discrepancies, confirm recovery with Cloudflare Operations, then obtain your explicit approval for this specific deployment.
 5. **Agent Board / playbook records:** The Agent Board, Coding Playbook, Repo Map, Failure Log, Lessons Log, and Estimate Log were not found in the checked-out project folders. No substitute records were invented; create/update them only after the owners provide the canonical locations.
 
 No production deployment, DNS/cache change, secret change, database action, or rollback was performed.
