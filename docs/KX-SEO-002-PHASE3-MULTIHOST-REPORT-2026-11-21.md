@@ -1,8 +1,9 @@
 # KX-SEO-002 — Phase 3 Connect / Client Portal remediation
 
-**Status:** Local candidate only; neither host was deployed.
+**Status:** PR candidate only; neither host was deployed.
 **Connect branch:** `seo/phase-3-connect`
 **Combined PR:** https://github.com/WorkTicket/kinexis-platform/pull/1 (open; not merged)
+**Current pushed PR head:** `384d835d8e6aa3b0cafe2080565637351605d4f7`
 **Connect implementation commit:** `5bf0642694b2c6c269e2e3d95448a464b8465bb6`
 **Repository:** `WorkTicket/kinexis-platform` (renamed from `WorkTicket/kinexis-connect`)
 **Connect Worker:** `kinexis-connect`; custom domain `connect.kinexisdigital.com`.
@@ -39,6 +40,7 @@ Wrangler CLI help confirms the rollback command accepts a target version ID. If 
 
 - `app/layout.js`: emit `noindex,nofollow` for all Portal pages, including Googlebot-specific no-index directives. This host is a private client workspace, not an SEO landing site.
 - `app/robots.js`: allow `/login` and `/register` to be crawled so crawlers can read their no-index metadata; disallow `/portal`, `/team`, and `/api/`.
+- `apps/client-portal/package.json` / lockfile: update within existing major ranges and pin safe transitive `glob`/`postcss` versions with scoped overrides. `npm audit` now reports zero advisories; `npm ci`, Next build, and OpenNext Cloudflare build pass on the pushed candidate.
 - Authentication, redirects, and the private data paths were not weakened.
 
 ## Verification
@@ -54,6 +56,10 @@ Wrangler CLI help confirms the rollback command accepts a target version ID. If 
 | Portal Next production build (`npm run build`) | PASS |
 | Portal local built-server metadata check | PASS — `/login` and `/register` returned 200 with `noindex,nofollow`; Googlebot was also no-indexed |
 | Portal generated `robots.txt` check | PASS — login/register allowed; portal/team/API disallowed |
+| Portal dependency audit | PASS — `npm ci` followed by `npm audit --audit-level=low`; 0 vulnerabilities |
+| Portal OpenNext Cloudflare build | PASS after clean install; Windows compatibility and old compatibility-date warnings remain |
+| Combined-repository lint | PASS — 0 errors; 6 existing Portal warnings. Generated nested `.next`/`.open-next` outputs are ignored. |
+| Release 3 GitHub Actions | Added `.github/workflows/release3-ci.yml` with separate Connect and Portal jobs; remote run/status still pending |
 | Production after-change verification | NOT RUN — no deployment authorization |
 | Independent QA | PASS on safety/auth, robots/indexing intent, evidence claims, and regression-test coverage; QA did not rerun commands. Rollback target and command shape PASS by read-only review; actual recovery remains NOT VERIFIED. The repo consolidation has not yet had independent QA. Release readiness remains FAIL/not deployable pending follow-up QA, the live crawl-source discrepancy, recovery verification, and specific owner approval. |
 
@@ -62,7 +68,7 @@ Wrangler CLI help confirms the rollback command accepts a target version ID. If 
 1. **Repository rename — DONE:** GitHub repository is now `WorkTicket/kinexis-platform`; GitHub redirects the former repository URL. The local `origin` remote has been updated. Review any external integrations that do not follow redirects.
 2. **Connect crawl-source discrepancy — P1:** Connect/Cloudflare Operations should identify which deployment/configuration serves the current robots and sitemap resources and reconcile it with the checked-out Worker. Do not alter Cloudflare settings without authorization.
 3. **Performance target — NOT CLAIMED:** The November 21 single-vantage sample medians are below 800 ms, but the historical 3,138 ms Ahrefs Connect flag is not explained or disproven globally. Repeat comparable multi-region/crawl measurements after an approved release; do not attribute a production improvement to the local middleware change.
-4. **Independent QA / owner approval — P0 deployment gate:** QA returned PASS on code checks and on identifying the rollback target/command shape, but NOT VERIFIED for actual recovery and FAIL for release readiness. Independently review the repo consolidation, recheck active versions, resolve the crawl-source discrepancy, confirm recovery with Cloudflare Operations, then obtain your explicit approval for each specific deployment.
+4. **Independent QA / owner approval — P0 deployment gate:** QA returned PASS on safety/auth and existing code checks, but actual recovery remains NOT VERIFIED and release readiness remains FAIL. The repo consolidation and pushed follow-up still need an independent review and successful remote CI. Recheck active versions, resolve the crawl-source discrepancy, confirm recovery with Cloudflare Operations, then obtain explicit approval for each specific deployment.
 5. **Agent Board / playbook records:** The Agent Board, Coding Playbook, Repo Map, Failure Log, Lessons Log, and Estimate Log were not found in the checked-out project folders. No substitute records were invented; create/update them only after the owners provide the canonical locations.
 
 No production deployment, DNS/cache change, secret change, database action, or rollback was performed.

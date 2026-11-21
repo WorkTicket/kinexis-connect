@@ -1,0 +1,44 @@
+name: Release 3 validation
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main, seo/phase-3-connect]
+
+permissions:
+  contents: read
+
+jobs:
+  connect:
+    name: Connect tests and Worker build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run cf:build
+
+  portal:
+    name: Portal audit and Worker build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/client-portal
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/client-portal/package-lock.json
+      - run: npm ci
+      - run: npm audit --audit-level=low
+      - run: npm run build
+      - run: npx opennextjs-cloudflare build
