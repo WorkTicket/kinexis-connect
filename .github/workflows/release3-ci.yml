@@ -49,12 +49,18 @@ jobs:
         if: failure()
         shell: bash
         run: |
-          {
-            echo "## Portal build diagnostics"
-            if [[ -f "$RUNNER_TEMP/portal-build.log" ]]; then
+          if [[ -f "$RUNNER_TEMP/portal-build.log" ]]; then
+            details="$(tail -n 30 "$RUNNER_TEMP/portal-build.log")"
+            details="${details//'%'/'%25'}"
+            details="${details//$'\r'/'%0D'}"
+            details="${details//$'\n'/'%0A'}"
+            details="${details//'::'/'%3A%3A'}"
+            echo "::error title=Portal build log (last 30 lines)::$details"
+            {
+              echo "## Portal build diagnostics"
               tail -n 120 "$RUNNER_TEMP/portal-build.log"
-            else
-              echo "No Portal build log was produced."
-            fi
-          } >> "$GITHUB_STEP_SUMMARY"
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "::error title=Portal build diagnostics::No Portal build log was produced."
+          fi
       - run: npx opennextjs-cloudflare build
