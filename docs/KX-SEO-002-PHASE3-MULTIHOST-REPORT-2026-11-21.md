@@ -2,6 +2,8 @@
 
 **Status:** Local candidate only; neither host was deployed.
 **Connect branch:** `seo/phase-3-connect`
+**Connect PR:** https://github.com/WorkTicket/kinexis-connect/pull/1 (open; not merged)
+**Connect head SHA:** `2542c29a6e37d05157cfa2110827288761f1ee88`
 **Connect repository:** `WorkTicket/kinexis-connect`; Worker `kinexis-connect`; custom domain `connect.kinexisdigital.com`.
 **Portal source:** `C:\Users\Slay3r\Desktop\websites\Kinexis\kinexis-client-portal`; owner (you) is confirmed, but this directory has no `.git` metadata or repository remote, so its source-control/PR path remains unverified.
 
