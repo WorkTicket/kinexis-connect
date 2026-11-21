@@ -1,40 +1,51 @@
-# KINEXIS Connect
+# Kinexis Platform
 
-KINEXIS Connect is a multi-tenant missed-call text-back SaaS. It includes Supabase authentication, business onboarding, PayPal subscriptions, entitlement-gated bundled plans, customer and admin dashboards, settings, inbox history, and team management.
+Monorepo for two independent Kinexis applications. Each app keeps its own Next.js configuration, dependencies, Cloudflare Worker, domain, data bindings, and deployment command:
 
-Telnyx delivery is gated by provider credentials, a verified toll-free number, forwarding tests, documented caller consent, compliance approval, and an active subscription or included entitlement. The application never reports an unsent message as sent.
+| App | Directory | Worker / domain |
+| --- | --- | --- |
+| KINEXIS Connect | repository root | `kinexis-connect` / `connect.kinexisdigital.com` |
+| Client Portal | [`apps/client-portal`](apps/client-portal) | `kinexis-client-portal` / `portal.kinexisdigital.com` |
 
-## Local development
+Combining source control does **not** combine runtime environments, databases, credentials, or production releases.
+
+## KINEXIS Connect
 
 Requirements: Node.js 24+, npm, and a Supabase project.
 
 ```bash
-cp .env.example .env.local
-npm install
+npm ci
 npm run dev
 ```
 
-Open `http://localhost:3000`. Apply the SQL files in `supabase/migrations/` in filename order before testing authenticated flows.
+Connect's Supabase migrations and configuration remain scoped to the repository root. See [Connect deployment](docs/deployment.md).
 
-## Required configuration
-
-- Supabase URL, anonymous key, and service-role key
-- `NEXT_PUBLIC_APP_URL` set to the exact application origin
-- PayPal client credentials, webhook ID, and three plan IDs
-- A strong `INTERNAL_JOB_SECRET`
-
-Telnyx variables may remain blank before phone activation. See [`.env.example`](.env.example) and [`docs/deployment.md`](docs/deployment.md).
-
-## Quality checks
+Useful checks and deployment commands:
 
 ```bash
 npm run lint
 npm run typecheck
 npm test
-npm run build
 npm run cf:build
+npm run deploy
 ```
 
-## Deployment
+## Client Portal
 
-The repository is configured for Cloudflare Workers through OpenNext and Wrangler. Follow [`docs/deployment.md`](docs/deployment.md), including Supabase redirects and PayPal webhook setup, before deploying.
+Requirements: Node.js 22+ and npm. Install dependencies in the Portal app directory:
+
+```bash
+cd apps/client-portal
+npm ci
+npm run dev
+```
+
+Configure local values in `apps/client-portal/.dev.vars` using the tracked `.dev.vars.example` template. Never commit `.dev.vars`, Worker secrets, or generated seed data. Portal's D1 binding, schema, Worker configuration, and deployment instructions are app-local.
+
+```bash
+npm run build
+npm run preview
+npm run deploy
+```
+
+Deploy each Worker only through its own app directory and only with explicit release approval. Portal deployment commands do not deploy Connect, and vice versa.

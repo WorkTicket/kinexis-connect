@@ -1,0 +1,166 @@
+[
+  {
+    "path": "assets/logo/favicon.svg",
+    "bytes": 3414
+  },
+  {
+    "path": "assets/logo/favicon-32.png",
+    "bytes": 1516
+  },
+  {
+    "path": "assets/logo/app-icon-180.png",
+    "bytes": 13822
+  },
+  {
+    "path": "assets/logo/kinexis-logo-dark.svg",
+    "bytes": 229651
+  },
+  {
+    "path": "assets/logo/favicon.ico",
+    "bytes": 6162
+  },
+  {
+    "path": "assets/logo/kinexis-logo.svg",
+    "bytes": 229651
+  },
+  {
+    "path": "assets/logo/favicon-16.png",
+    "bytes": 699
+  },
+  {
+    "path": "assets/logo/kinexis-logo.png",
+    "bytes": 53425
+  },
+  {
+    "path": "assets/logo/app-icon-maskable-512.png",
+    "bytes": 41159
+  },
+  {
+    "path": "assets/logo/app-icon-192.png",
+    "bytes": 14799
+  },
+  {
+    "path": "assets/logo/kinexis-logo-dark.png",
+    "bytes": 56555
+  },
+  {
+    "path": "assets/logo/app-icon-512.png",
+    "bytes": 44939
+  },
+  {
+    "path": "assets/icons/website.svg",
+    "bytes": 643
+  },
+  {
+    "path": "assets/icons/notifications.svg",
+    "bytes": 507
+  },
+  {
+    "path": "assets/icons/integrations.svg",
+    "bytes": 526
+  },
+  {
+    "path": "assets/icons/campaigns.svg",
+    "bytes": 574
+  },
+  {
+    "path": "assets/icons/upload.svg",
+    "bytes": 572
+  },
+  {
+    "path": "assets/icons/billing.svg",
+    "bytes": 528
+  },
+  {
+    "path": "assets/icons/support.svg",
+    "bytes": 625
+  },
+  {
+    "path": "assets/icons/reports.svg",
+    "bytes": 674
+  },
+  {
+    "path": "assets/icons/analytics.svg",
+    "bytes": 568
+  },
+  {
+    "path": "assets/icons/overview.svg",
+    "bytes": 592
+  },
+  {
+    "path": "assets/icons/settings.svg",
+    "bytes": 644
+  },
+  {
+    "path": "assets/icons/team.svg",
+    "bytes": 713
+  },
+  {
+    "path": "assets/illustrations/password-reset.svg",
+    "bytes": 1776
+  },
+  {
+    "path": "assets/illustrations/welcome.svg",
+    "bytes": 2834
+  },
+  {
+    "path": "assets/illustrations/onboarding-complete.svg",
+    "bytes": 1945
+  },
+  {
+    "path": "assets/illustrations/empty-reports.svg",
+    "bytes": 2105
+  },
+  {
+    "path": "assets/illustrations/business-profile.svg",
+    "bytes": 2244
+  },
+  {
+    "path": "assets/illustrations/verify-email.svg",
+    "bytes": 1859
+  },
+  {
+    "path": "assets/illustrations/invite-team.svg",
+    "bytes": 1861
+  },
+  {
+    "path": "assets/illustrations/empty-campaigns.svg",
+    "bytes": 1692
+  },
+  {
+    "path": "assets/illustrations/empty-search.svg",
+    "bytes": 1585
+  },
+  {
+    "path": "assets/illustrations/integration-disconnected.svg",
+    "bytes": 1796
+  },
+  {
+    "path": "assets/illustrations/empty-clients.svg",
+    "bytes": 1724
+  },
+  {
+    "path": "assets/illustrations/empty-analytics.svg",
+    "bytes": 1970
+  },
+  {
+    "path": "assets/illustrations/connect-accounts.svg",
+    "bytes": 2888
+  },
+  {
+    "path": "assets/img/login-hero.webp",
+    "bytes": 63492
+  },
+  {
+    "path": "assets/img/login-hero.jpg",
+    "bytes": 113380
+  },
+  {
+    "path": "assets/img/login-hero.svg",
+    "bytes": 5539
+  },
+  {
+    "path": "assets/fonts/README.txt",
+    "bytes": 117
+  }
+]

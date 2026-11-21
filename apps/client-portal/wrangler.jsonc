@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kinexis-client-portal",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-04-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  "routes": [{ "pattern": "portal.kinexisdigital.com", "custom_domain": true }],
+  "d1_databases": [{ "binding": "DB", "database_name": "kinexis", "database_id": "fc18da84-2e3f-413f-a84e-1c848a8c62ef" }],
+  "vars": { "APP_URL": "https://portal.kinexisdigital.com" }
+}

@@ -1,0 +1,6 @@
+# Copy to .dev.vars for local work. In production use: npx wrangler secret put NAME
+APP_URL=http://localhost:3000
+SESSION_SECRET=change-me-to-a-long-random-string
+TOKEN_KEY=another-long-random-string
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
