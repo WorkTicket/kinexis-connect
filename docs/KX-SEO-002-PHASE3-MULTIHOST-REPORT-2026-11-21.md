@@ -1,8 +1,8 @@
 # KX-SEO-002 — Phase 3 Connect / Client Portal remediation
 
-**Status:** Local candidate only; neither host was deployed.  
-**Connect branch:** `seo/phase-3-connect`  
-**Connect repository:** `WorkTicket/kinexis-connect`; Worker `kinexis-connect`; custom domain `connect.kinexisdigital.com`.  
+**Status:** Local candidate only; neither host was deployed.
+**Connect branch:** `seo/phase-3-connect`
+**Connect repository:** `WorkTicket/kinexis-connect`; Worker `kinexis-connect`; custom domain `connect.kinexisdigital.com`.
 **Portal source:** `C:\Users\Slay3r\Desktop\websites\Kinexis\kinexis-client-portal`; this directory has no `.git` metadata or repository remote, so its owner/repository and PR path remain unverified.
 
 ## Evidence and findings
