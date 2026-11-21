@@ -3,7 +3,7 @@
 **Status:** PR candidate only; neither host was deployed.
 **Connect branch:** `seo/phase-3-connect`
 **Combined PR:** https://github.com/WorkTicket/kinexis-platform/pull/1 (open; not merged)
-**Current pushed PR head:** `37b9b77e9958ae318b7e924ec859c9db1c5acd68`
+**Previously CI-passing PR head:** `7859320582a3c77545880fef2ff4540c3ff3668e` (SEO metadata correction follows)
 **Connect implementation commit:** `5bf0642694b2c6c269e2e3d95448a464b8465bb6`
 **Repository:** `WorkTicket/kinexis-platform` (renamed from `WorkTicket/kinexis-connect`)
 **Connect Worker:** `kinexis-connect`; custom domain `connect.kinexisdigital.com`.
@@ -17,7 +17,7 @@
 - **INFERENCE, not isolated cause:** Connect's `src/middleware.ts` previously matched essentially every non-static request, constructed a Supabase SSR client, and awaited `auth.getUser()` even for public marketing routes and APIs. Narrowing the matcher removes this unnecessary middleware auth lookup from public routes. The observed timing data do not prove that middleware caused the historical Ahrefs delay; worker/cache behavior remains unisolated.
 - **FACT — Portal indexing intent:** Portal contains authenticated workspaces plus public login/registration forms, with no public acquisition content. Before the change, the root metadata had no `robots` directive, so login and registration inherited indexable defaults.
 - **FACT — current live robots endpoint:** `https://portal.kinexisdigital.com/robots.txt` served Cloudflare content-signal text without normal path directives. The candidate now generates explicit crawler rules in Next; production must be checked after an approved deployment to confirm Cloudflare's edge behavior preserves them.
-- The live Connect crawler policy is now represented by `src/app/robots.ts` and `src/app/sitemap.ts`. The candidate's generated `.next/server/app/robots.txt.body` and `sitemap.xml.body` match the captured production directives, URL list, and priorities exactly. This reconciles the source/content discrepancy without changing the observed indexing policy or Cloudflare configuration. Verify the endpoints after an approved deployment.
+- The Connect crawler policy is represented by `src/app/robots.ts` and `src/app/sitemap.ts`. The robots rules match production. The sitemap intentionally lists only the home and pricing pages; privacy, terms, and SMS policy remain reachable but are `noindex` and are excluded. No Cloudflare configuration was changed.
 
 ## Read-only rollback inspection
 
@@ -59,16 +59,16 @@ Wrangler CLI help confirms the rollback command accepts a target version ID. If 
 | Portal dependency audit | PASS — `npm ci` followed by `npm audit --audit-level=low`; 0 vulnerabilities |
 | Portal OpenNext Cloudflare build | PASS after clean install; Windows compatibility and old compatibility-date warnings remain |
 | Combined-repository lint | PASS — 0 errors; 6 existing Portal warnings. Generated nested `.next`/`.open-next` outputs are ignored. |
-| Release 3 GitHub Actions | Portal Linux failure diagnosed: `@tailwindcss/postcss` was missing from the Portal workspace although its build resolves the root PostCSS config. Added the plugin to the Portal dependencies and lockfile; local clean install, audit (0 vulnerabilities), Next build, and OpenNext build pass. New remote runs must pass before merge/release. |
+| Release 3 GitHub Actions | PASS — Connect and Portal jobs passed on `7859320582a3c77545880fef2ff4540c3ff3668e`. Portal Linux failure was fixed by declaring `@tailwindcss/postcss` in its workspace and lockfile. |
 | Production after-change verification | NOT RUN — no deployment authorization |
-| Independent QA | PASS on safety/auth, robots/indexing intent, evidence claims, and regression-test coverage; QA did not rerun commands. Rollback target and command shape PASS by read-only review; actual recovery remains NOT VERIFIED. The repo consolidation has not yet had independent QA. Release readiness remains FAIL/not deployable pending follow-up QA, Operations' recovery confirmation, and specific owner approval. |
+| Independent QA | Latest independent review passed Portal but failed Connect because candidate metadata dropped live home/pricing SEO titles, descriptions, and canonicals. Fix is in progress: restore exact production metadata, set production metadata base, exclude noindex legal URLs from sitemap, and pin these values in tests. Recovery remains NOT VERIFIED; Release 3 remains not deployable pending QA recheck, Operations' recovery confirmation, merge, and specific owner approvals. |
 
 ## Open items and gates
 
 1. **Repository rename — DONE:** GitHub repository is now `WorkTicket/kinexis-platform`; GitHub redirects the former repository URL. The local `origin` remote has been updated. Review any external integrations that do not follow redirects.
-2. **Connect crawl-source discrepancy — SOURCE RECONCILED:** Connect's generated crawler files now reproduce the observed production robots/sitemap content exactly. No zone configuration was changed. Confirm endpoint content and cache behavior after each separately approved deployment.
+2. **Connect crawler policy — SOURCE RECONCILED:** Robots rules match production. The candidate sitemap contains only the indexable home and pricing URLs; legal pages stay reachable but are excluded because they are noindex. No zone configuration was changed. Verify after an approved deployment.
 3. **Performance target — NOT CLAIMED:** The November 21 single-vantage sample medians are below 800 ms, but the historical 3,138 ms Ahrefs Connect flag is not explained or disproven globally. Repeat comparable multi-region/crawl measurements after an approved release; do not attribute a production improvement to the local middleware change.
-4. **Independent QA / owner approval — P0 deployment gate:** Local Connect/Portal builds pass, but the fixed Portal dependency has not yet passed remote CI and actual recovery remains NOT VERIFIED; release readiness remains FAIL. The repo consolidation and pushed follow-up still need independent review. Recheck active versions, confirm recovery with Cloudflare Operations, then obtain explicit approval for each specific deployment.
+4. **Independent QA / owner approval — P0 deployment gate:** Connect's metadata correction is awaiting independent re-review. Operations' actual recovery readiness remains NOT VERIFIED. Merge only after QA and other repository gates pass; recheck active versions, confirm recovery with Operations, then obtain explicit approval for each specific deployment.
 5. **Agent Board / playbook records:** The Agent Board, Coding Playbook, Repo Map, Failure Log, Lessons Log, and Estimate Log were not found in the checked-out project folders. No substitute records were invented; create/update them only after the owners provide the canonical locations.
 
 No production deployment, DNS/cache change, secret change, database action, or rollback was performed.

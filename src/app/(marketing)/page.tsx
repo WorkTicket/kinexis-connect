@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+export { homePageMetadata as metadata } from "@/lib/seo-metadata";
+
 const features = [
   { icon: "missed-call-detection.svg", title: "Know when a call is missed", body: "Answered, busy, no-answer, and failed calls are tracked accurately." },
   { icon: "instant-text-back.svg", title: "Respond automatically", body: "Send a helpful follow-up while the customer is still looking for service." },

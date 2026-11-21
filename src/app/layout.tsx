@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { CONNECT_METADATA_BASE } from "@/lib/seo-metadata";
 import "./globals.css";
 
 const inter = localFont({
@@ -19,7 +20,7 @@ const poppins = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
+  metadataBase: CONNECT_METADATA_BASE,
   title: {
     default: "KINEXIS Connect",
     template: "%s | KINEXIS Connect",
