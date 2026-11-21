@@ -1,1 +1,0 @@
-export default function SmsPolicy() { return (<main className="max-w-3xl mx-auto px-8 py-16"><h1 className="text-2xl font-bold text-[#0A1230]">SMS Policy (Draft)</h1><p className="mt-4 text-[#65718C]">Draft SMS policy requiring lawyer/business review. Not legal advice.</p></main>); }

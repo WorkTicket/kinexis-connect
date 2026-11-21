@@ -14,8 +14,8 @@ jobs:
     name: Connect tests and Worker build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -32,13 +32,29 @@ jobs:
       run:
         working-directory: apps/client-portal
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
           cache-dependency-path: apps/client-portal/package-lock.json
       - run: npm ci
       - run: npm audit --audit-level=low
-      - run: npm run build
+      - name: Build Portal and retain failure log
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run build 2>&1 | tee "$RUNNER_TEMP/portal-build.log"
+      - name: Include build diagnostics in run summary
+        if: failure()
+        shell: bash
+        run: |
+          {
+            echo "## Portal build diagnostics"
+            if [[ -f "$RUNNER_TEMP/portal-build.log" ]]; then
+              tail -n 120 "$RUNNER_TEMP/portal-build.log"
+            else
+              echo "No Portal build log was produced."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
       - run: npx opennextjs-cloudflare build
