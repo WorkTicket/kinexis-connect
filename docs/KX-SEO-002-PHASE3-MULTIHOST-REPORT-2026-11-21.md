@@ -3,7 +3,7 @@
 **Status:** Local candidate only; neither host was deployed.
 **Connect branch:** `seo/phase-3-connect`
 **Connect repository:** `WorkTicket/kinexis-connect`; Worker `kinexis-connect`; custom domain `connect.kinexisdigital.com`.
-**Portal source:** `C:\Users\Slay3r\Desktop\websites\Kinexis\kinexis-client-portal`; this directory has no `.git` metadata or repository remote, so its owner/repository and PR path remain unverified.
+**Portal source:** `C:\Users\Slay3r\Desktop\websites\Kinexis\kinexis-client-portal`; owner (you) is confirmed, but this directory has no `.git` metadata or repository remote, so its source-control/PR path remains unverified.
 
 ## Evidence and findings
 
@@ -45,10 +45,10 @@
 
 ## Open items and gates
 
-1. **Connect/Portal owner + repository handoff — P1:** The Client Portal checkout has no Git metadata or remote; identify its source repository and authorized owner before preparing its PR/deployment.
+1. **Portal source-control handoff — P1:** You confirmed that you are the owner. The Client Portal checkout still has no Git metadata or remote; identify its canonical source repository or confirm that this standalone folder is the intended source before preparing a tracked PR/deployment.
 2. **Connect crawl-source discrepancy — P1:** Connect/Cloudflare Operations should identify which deployment/configuration serves the current robots and sitemap resources and reconcile it with the checked-out Worker. Do not alter Cloudflare settings without authorization.
 3. **Performance target — NOT CLAIMED:** The November 21 single-vantage sample medians are below 800 ms, but the historical 3,138 ms Ahrefs Connect flag is not explained or disproven globally. Repeat comparable multi-region/crawl measurements after an approved release; do not attribute a production improvement to the local middleware change.
-4. **Independent QA / owner approval — P0 deployment gate:** QA reviewed this candidate and returned PASS on safety/auth, robots intent, evidence, and regression coverage, but FAIL for deployment readiness. Confirm the rollback artifact/version and recovery procedure, resolve the handoff and crawl-source discrepancies, then obtain Colton's explicit approval for each deployment.
+4. **Independent QA / owner approval — P0 deployment gate:** QA reviewed this candidate and returned PASS on safety/auth, robots intent, evidence, and regression coverage, but FAIL for deployment readiness. Confirm the rollback artifact/version and recovery procedure, resolve the source-control and crawl-source discrepancies, then obtain your explicit approval for this specific deployment.
 5. **Agent Board / playbook records:** The Agent Board, Coding Playbook, Repo Map, Failure Log, Lessons Log, and Estimate Log were not found in the checked-out project folders. No substitute records were invented; create/update them only after the owners provide the canonical locations.
 
 No production deployment, DNS/cache change, secret change, database action, or rollback was performed.
