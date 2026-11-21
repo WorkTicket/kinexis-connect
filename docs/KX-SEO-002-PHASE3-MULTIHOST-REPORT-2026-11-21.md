@@ -5,7 +5,7 @@
 **Connect PR:** https://github.com/WorkTicket/kinexis-connect/pull/1 (open; not merged)
 **Connect implementation commit:** `5bf0642694b2c6c269e2e3d95448a464b8465bb6`
 **Connect repository:** `WorkTicket/kinexis-connect`; Worker `kinexis-connect`; custom domain `connect.kinexisdigital.com`.
-**Portal source:** `C:\Users\Slay3r\Desktop\websites\Kinexis\kinexis-client-portal`; owner (you) is confirmed, but this directory has no `.git` metadata or repository remote, so its source-control/PR path remains unverified.
+**Portal source:** `C:\Users\Slay3r\Desktop\websites\Kinexis\kinexis-client-portal`; owner (you) is confirmed, but this directory has no `.git` metadata or repository remote. A GitHub repository search in the connected account returned no accessible match for `kinexis-client-portal`; this does not rule out a private repository outside that account, so its source-control/PR path remains unverified.
 
 ## Evidence and findings
 
